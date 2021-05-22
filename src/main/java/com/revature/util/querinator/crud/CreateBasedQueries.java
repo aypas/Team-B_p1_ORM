@@ -73,7 +73,7 @@ public class CreateBasedQueries {
 
         System.out.println(pstmt);
 
-        // TODO: Actually fire it to the db
+        pstmt.executeUpdate();
 
         return true;
 

@@ -18,7 +18,7 @@ public class Driver {
 
         final PostgresQueryBuilder qBuild = new PostgresQueryBuilder(ConnectionFactory.getInstance().getConnection());
 
-        Person testPerson = new Person(0, "Test", "Person", 25, "01-18-1996", "test_person", "test.person@test.org", "password");
+        Person testPerson = new Person("Test", "Person", 25, "01-18-1996", "test_person", "test.person@test.org", "password");
 
         try {
 
@@ -29,10 +29,10 @@ public class Driver {
             System.out.println(qBuild.buildQuery(testPerson, "select_by_pk"));
 
             // Delete Test
-            System.out.println(qBuild.buildQuery(testPerson, "delete"));
+            //System.out.println(qBuild.buildQuery(testPerson, "delete"));
 
             // Update Test
-            System.out.println(qBuild.buildQuery(testPerson, "update"));
+            //System.out.println(qBuild.buildQuery(testPerson, "update"));
 
             // Username Login Test
             System.out.println(qBuild.buildQuery(testPerson, "login_username"));
