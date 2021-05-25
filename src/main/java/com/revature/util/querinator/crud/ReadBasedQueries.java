@@ -2,6 +2,7 @@ package com.revature.util.querinator.crud;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -45,9 +46,9 @@ public class ReadBasedQueries {
 
         System.out.println(pstmt.toString());
 
-        // TODO: Actually fire it to the db
+        ResultSet rs = pstmt.executeQuery();
 
-        return true;
+        return rs.next();
 
     }
 
