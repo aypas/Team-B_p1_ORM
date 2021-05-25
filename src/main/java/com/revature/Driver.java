@@ -29,10 +29,10 @@ public class Driver {
             System.out.println(qBuild.buildQuery(testPerson, "select_by_pk"));
 
             // Delete Test
-            //System.out.println(qBuild.buildQuery(testPerson, "delete"));
+            System.out.println(qBuild.buildQuery(testPerson, "delete"));
 
             // Update Test
-            //System.out.println(qBuild.buildQuery(testPerson, "update"));
+            System.out.println(qBuild.buildQuery(testPerson, "update"));
 
             // Username Login Test
             System.out.println(qBuild.buildQuery(testPerson, "login_username"));
