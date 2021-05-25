@@ -14,4 +14,8 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Password {
+
+    // Set this to true if using pgcrypt library.
+    boolean encrypt() default false;
+    
 }

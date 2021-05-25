@@ -75,6 +75,7 @@ public class CreateBasedQueries {
 
         int insertedRows = pstmt.executeUpdate();
 
+
         if (insertedRows != 0) {
             return true;
         }
