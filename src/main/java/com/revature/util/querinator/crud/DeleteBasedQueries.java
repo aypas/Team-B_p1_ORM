@@ -27,9 +27,13 @@ public class DeleteBasedQueries {
 
         System.out.println(pstmt);
 
-        // TODO: Actually fire it to the db
+        int deletedRows = pstmt.executeUpdate();
 
-        return true;
+        if (deletedRows != 0) {
+            return true;
+        }
+
+        return false;
 
     }
 

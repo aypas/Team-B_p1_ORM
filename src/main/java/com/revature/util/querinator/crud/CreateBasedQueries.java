@@ -73,9 +73,14 @@ public class CreateBasedQueries {
 
         System.out.println(pstmt);
 
-        //pstmt.executeUpdate();
+        int insertedRows = pstmt.executeUpdate();
 
-        return true;
+
+        if (insertedRows != 0) {
+            return true;
+        }
+
+        return false;
 
     }
 

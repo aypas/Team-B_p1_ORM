@@ -48,9 +48,9 @@ public class ReadBasedQueries {
 
         System.out.println(pstmt.toString());
 
-        // TODO: Actually fire it to the db
+        ResultSet rs = pstmt.executeQuery();
 
-        return true;
+        return rs.next();
 
     }
 

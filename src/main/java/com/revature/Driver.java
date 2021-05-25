@@ -23,22 +23,22 @@ public class Driver {
         try {
 
             // Insert Test
-            System.out.println(qBuild.buildQuery(testPerson, "insert"));
+            System.out.println(qBuild.insert(testPerson));
 
             // Select Test
-            System.out.println(qBuild.buildQuery(testPerson, "select_by_pk"));
+            System.out.println(qBuild.selectByPrimaryKey(testPerson));
 
             // Delete Test
-            System.out.println(qBuild.buildQuery(testPerson, "delete"));
+            System.out.println(qBuild.delete(testPerson));
 
             // Update Test
-            System.out.println(qBuild.buildQuery(testPerson, "update"));
+            System.out.println(qBuild.update(testPerson));
 
             // Username Login Test
-            System.out.println(qBuild.buildQuery(testPerson, "login_username"));
+            System.out.println(qBuild.loginByUsername(testPerson));
 
             // Email Login Test
-            System.out.println(qBuild.buildQuery(testPerson, "login_email"));
+            System.out.println(qBuild.loginByEmail(testPerson));
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

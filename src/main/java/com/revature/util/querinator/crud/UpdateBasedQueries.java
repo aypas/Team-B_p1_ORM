@@ -58,9 +58,13 @@ public class UpdateBasedQueries {
 
         System.out.println(pstmt);
 
-        // TODO: Actually fire it to the db
+        int updatedRows = pstmt.executeUpdate();
 
-        return true;
+        if (updatedRows != 0) {
+            return true;
+        }
+
+        return false;
 
     }
 
