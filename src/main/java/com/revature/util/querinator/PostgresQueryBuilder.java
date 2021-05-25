@@ -42,6 +42,30 @@ public class PostgresQueryBuilder<T> {
      * @throws AnnotationNotFound
      */
 
+    public boolean insert (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "insert");
+    }
+
+    public boolean update (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "update");
+    }
+
+    public boolean selectByPrimaryKey (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "select_by_pk");
+    }
+
+    public boolean loginByUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "login_username");
+    }
+
+    public boolean loginByEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "login_email");
+    }
+
+    public boolean delete (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "delete");
+    }
+
     public boolean buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
 
         // TODO: Maybe turn this into an ENUM?
