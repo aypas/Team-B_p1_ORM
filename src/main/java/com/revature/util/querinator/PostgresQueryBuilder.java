@@ -12,6 +12,8 @@ import com.revature.util.querinator.crud.UpdateBasedQueries;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,34 +45,34 @@ public class PostgresQueryBuilder<T> {
      */
 
     public boolean insert (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "insert");
+        return sendQuery(obj, "insert");
     }
 
     public boolean update (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "update");
-    }
-
-    public boolean selectByPrimaryKey (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "select_by_pk");
-    }
-
-    public boolean loginByUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "login_username");
-    }
-
-    public boolean loginByEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "login_email");
+        return sendQuery(obj, "update");
     }
 
     public boolean delete (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "delete");
+        return sendQuery(obj, "delete");
     }
 
-    public boolean buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
+    public ResultSet selectByPrimaryKey (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "select_by_pk");
+    }
+
+    public ResultSet loginByUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "login_username");
+    }
+
+    public ResultSet loginByEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "login_email");
+    }
+
+    public boolean sendQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
 
         // TODO: Maybe turn this into an ENUM?
         // Set of valid queryType entries
-        Set<String> validQueryTypes = Stream.of("insert", "update", "select_by_pk", "login_username", "login_email", "delete")
+        Set<String> validQueryTypes = Stream.of("insert", "update", "delete")
                                             .collect(Collectors.toCollection(HashSet::new));
 
         // Ensures a good entry for query type
@@ -93,16 +95,8 @@ public class PostgresQueryBuilder<T> {
         // Primary key info [0] will be the pk column name [1] will be the key itself
         Object[] pkInfo = annoGetter.getPrimaryKey(obj);
 
-        /*
-            Will be needed for login functions within switch
-            Email or Username column will be [0][0] and their values will be [0][1]
-            Password column will be [1][0] and the value will be [1][1]
-         */
-        Object[][] loginInfo;
-
         // Query Builders
         CreateBasedQueries createGenerator;
-        ReadBasedQueries readGenerator;
         UpdateBasedQueries updateGenerator;
         DeleteBasedQueries deleteGenerator;
 
@@ -126,37 +120,6 @@ public class PostgresQueryBuilder<T> {
                 query = updateGenerator.buildUpdateQueryString(tableName, pkInfo, queryColumns, queryValues);
                 break;
 
-
-
-            case "select_by_pk":
-
-                readGenerator = new ReadBasedQueries(conn);
-
-                query = readGenerator.buildSelectAllByPK(tableName, pkInfo);
-
-                break;
-
-
-            case "login_username":
-
-                readGenerator = new ReadBasedQueries(conn);
-
-                loginInfo = annoGetter.getLoginInfoByUsername(obj);
-
-                query = readGenerator.buildLoginByUsername(tableName, loginInfo);
-
-                break;
-
-            case "login_email":
-
-                readGenerator = new ReadBasedQueries(conn);
-
-                loginInfo = annoGetter.getLoginInfoByEmail(obj);
-
-                query = readGenerator.buildLoginByEmail(tableName, loginInfo);
-
-                break;
-
             case "delete":
 
                 deleteGenerator = new DeleteBasedQueries(conn);
@@ -168,6 +131,77 @@ public class PostgresQueryBuilder<T> {
         }
 
         return query;
+
+    }
+
+    public ResultSet buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
+
+        // TODO: Maybe turn this into an ENUM?
+        // Set of valid queryType entries
+        Set<String> validQueryTypes = Stream.of("select_by_pk", "login_username", "login_email")
+                .collect(Collectors.toCollection(HashSet::new));
+
+        // Ensures a good entry for query type
+        if (!validQueryTypes.contains(queryType)) { throw new InvalidInput("Bad query type value!"); }
+
+        // Ensures the pojo is supposed to be persisted to a table
+        if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        // Holds the table name related to our POJO
+        String tableName = annoGetter.getTableName(obj);
+
+        // Primary key info [0] will be the pk column name [1] will be the key itself
+        Object[] pkInfo = annoGetter.getPrimaryKey(obj);
+
+        /*
+            Will be needed for login functions within switch
+            Email or Username column will be [0][0] and their values will be [0][1]
+            Password column will be [1][0] and the value will be [1][1]
+         */
+        Object[][] loginInfo;
+
+        // Query Builders
+        ReadBasedQueries readGenerator;
+
+        // The return value
+        ResultSet rs = null;
+
+        switch (queryType) {
+
+            case "select_by_pk":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                rs = readGenerator.buildSelectAllByPK(tableName, pkInfo);
+
+                break;
+
+
+            case "login_username":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                loginInfo = annoGetter.getLoginInfoByUsername(obj);
+
+                rs = readGenerator.buildLoginByUsername(tableName, loginInfo);
+
+                break;
+
+            case "login_email":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                loginInfo = annoGetter.getLoginInfoByEmail(obj);
+
+                rs = readGenerator.buildLoginByEmail(tableName, loginInfo);
+
+                break;
+
+        }
+
+        return rs;
 
     }
 

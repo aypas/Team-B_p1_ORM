@@ -18,7 +18,7 @@ public class ReadBasedQueries {
 
     public ReadBasedQueries(Connection conn){ this.conn = conn; }
 
-    public boolean buildLoginByUsername(String tableName, Object[][] loginInfo) throws SQLException {
+    public ResultSet buildLoginByUsername(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select " + loginInfo[0][0] + " from " + tableName + " where " + loginInfo[0][0] + " = ? and " + loginInfo[1][0] + " = ?;";
 
@@ -27,17 +27,17 @@ public class ReadBasedQueries {
         pstmt.setObject(1, loginInfo[0][1]);
         pstmt.setObject(2, loginInfo[1][1]);
 
-        System.out.println(pstmt.toString());
+        System.out.println(pstmt);
 
         ResultSet rs = pstmt.executeQuery();
 
         // TODO: Create object based on db return
 
-        return true;
+        return rs;
 
     }
 
-    public boolean buildLoginByEmail(String tableName, Object[][] loginInfo) throws SQLException {
+    public ResultSet buildLoginByEmail(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select " + loginInfo[0][0] + " from " + tableName + " where " + loginInfo[0][0] + " = ? and " + loginInfo[1][0] + " = ?;";
 
@@ -46,16 +46,16 @@ public class ReadBasedQueries {
         pstmt.setObject(1, loginInfo[0][1]);
         pstmt.setObject(2, loginInfo[1][1]);
 
-        System.out.println(pstmt.toString());
+        System.out.println(pstmt);
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs.next();
+        return rs;
 
     }
 
 
-    public boolean buildSelectAllByPK(String tableName, Object[] pkInfo) throws SQLException {
+    public ResultSet buildSelectAllByPK(String tableName, Object[] pkInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + pkInfo[0] + " = ?;";
 
@@ -65,9 +65,9 @@ public class ReadBasedQueries {
 
         System.out.println(pstmt);
 
-        // TODO: Actually fire it to the db
+        ResultSet rs = pstmt.executeQuery();
 
-        return true;
+        return rs;
 
     }
 
