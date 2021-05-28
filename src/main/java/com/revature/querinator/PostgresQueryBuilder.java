@@ -65,7 +65,7 @@ public class PostgresQueryBuilder<T> {
     public String getEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         ResultSet rs = buildQuery(obj, "select_email");
         if (!rs.next()) {
-            throw new SQLException();
+            return null;
         } else {
             return rs.getString("email");
         }
@@ -74,7 +74,7 @@ public class PostgresQueryBuilder<T> {
     public String getUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         ResultSet rs = buildQuery(obj, "select_username");
         if (!rs.next()) {
-            throw new SQLException();
+            return null;
         } else {
             return rs.getString("username");
         }
