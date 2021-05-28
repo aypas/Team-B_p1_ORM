@@ -1,4 +1,4 @@
-package com.revature.util.querinator.crud;
+package com.revature.util.crud;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

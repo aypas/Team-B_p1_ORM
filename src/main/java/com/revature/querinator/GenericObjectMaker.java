@@ -1,4 +1,4 @@
-package com.revature.util.querinator;
+package com.revature.querinator;
 
 import com.revature.util.annotation.Column;
 import com.revature.util.annotation.Primary;

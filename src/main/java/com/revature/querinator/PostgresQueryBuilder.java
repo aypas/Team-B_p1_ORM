@@ -1,23 +1,18 @@
-package com.revature.util.querinator;
+package com.revature.querinator;
 
 import com.revature.exceptions.AnnotationNotFound;
 import com.revature.exceptions.InvalidInput;
 import com.revature.util.annotation.*;
-import com.revature.util.querinator.annotationhelper.AnnotationGetters;
-import com.revature.util.querinator.crud.CreateBasedQueries;
-import com.revature.util.querinator.crud.DeleteBasedQueries;
-import com.revature.util.querinator.crud.ReadBasedQueries;
-import com.revature.util.querinator.crud.UpdateBasedQueries;
+import com.revature.util.annotationhelper.AnnotationGetters;
+import com.revature.util.crud.CreateBasedQueries;
+import com.revature.util.crud.DeleteBasedQueries;
+import com.revature.util.crud.ReadBasedQueries;
+import com.revature.util.crud.UpdateBasedQueries;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by IntelliJ IDEA.
