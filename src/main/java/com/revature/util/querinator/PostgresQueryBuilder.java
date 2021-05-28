@@ -37,7 +37,6 @@ public class PostgresQueryBuilder<T> {
      * Description: Wraps everything nicely into a switch for multiple query types.
      *
      * @param obj
-     * @param queryType
      * @return query
      * @throws IllegalAccessException
      * @throws InvalidInput
@@ -68,15 +67,44 @@ public class PostgresQueryBuilder<T> {
         return buildQuery(obj, "login_email");
     }
 
+    public ResultSet loginByEmailPgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "pgCrypt_login_email");
+    }
+
+    public ResultSet loginByUsernamePgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "pgCrypt_login_username");
+    }
+
+    /**
+     *
+     * @param obj
+     * @param fkInfo [0] = foreign key column name [1] = value
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
+    public ResultSet getObjectByForeignKey (T obj, Object[] fkInfo) throws IllegalAccessException, AnnotationNotFound, SQLException {
+
+        ReadBasedQueries selectMaker = new ReadBasedQueries(conn);
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        // Holds the table name related to our POJO
+        String tableName = annoGetter.getTableName(obj);
+
+        return selectMaker.buildSelectAllByFK(tableName, fkInfo);
+    }
+
     public boolean sendQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
 
         // TODO: Maybe turn this into an ENUM?
         // Set of valid queryType entries
-        Set<String> validQueryTypes = Stream.of("insert", "update", "delete")
-                                            .collect(Collectors.toCollection(HashSet::new));
+        //Set<String> validQueryTypes = Stream.of("insert", "update", "delete")
+        //                                    .collect(Collectors.toCollection(HashSet::new));
 
         // Ensures a good entry for query type
-        if (!validQueryTypes.contains(queryType)) { throw new InvalidInput("Bad query type value!"); }
+        //if (!validQueryTypes.contains(queryType)) { throw new InvalidInput("Bad query type value!"); }
 
         // Ensures the pojo is supposed to be persisted to a table
         if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
@@ -138,11 +166,11 @@ public class PostgresQueryBuilder<T> {
 
         // TODO: Maybe turn this into an ENUM?
         // Set of valid queryType entries
-        Set<String> validQueryTypes = Stream.of("select_by_pk", "login_username", "login_email")
-                .collect(Collectors.toCollection(HashSet::new));
+        //Set<String> validQueryTypes = Stream.of("select_by_pk", "login_username", "login_email", "pgCrypt_login_email", "pgCrypt_login_username")
+        //        .collect(Collectors.toCollection(HashSet::new));
 
         // Ensures a good entry for query type
-        if (!validQueryTypes.contains(queryType)) { throw new InvalidInput("Bad query type value!"); }
+        //if (!validQueryTypes.contains(queryType)) { throw new InvalidInput("Bad query type value!"); }
 
         // Ensures the pojo is supposed to be persisted to a table
         if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
@@ -185,7 +213,7 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByUsername(obj);
 
-                rs = readGenerator.buildLoginByUsername(tableName, loginInfo);
+                rs = readGenerator.buildLogin(tableName, loginInfo);
 
                 break;
 
@@ -195,10 +223,29 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByEmail(obj);
 
-                rs = readGenerator.buildLoginByEmail(tableName, loginInfo);
+                rs = readGenerator.buildLogin(tableName, loginInfo);
 
                 break;
 
+            case "pgCrypt_login_email":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                loginInfo = annoGetter.getLoginInfoByEmail(obj);
+
+                rs = readGenerator.buildGetDecryptedPgEncryptedPass(tableName, loginInfo);
+
+                break;
+
+            case "pgCrypt_login_username":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                loginInfo = annoGetter.getLoginInfoByUsername(obj);
+
+                rs = readGenerator.buildGetDecryptedPgEncryptedPass(tableName, loginInfo);
+
+                break;
         }
 
         return rs;

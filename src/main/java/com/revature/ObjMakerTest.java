@@ -23,9 +23,29 @@ public class ObjMakerTest {
 
         Person test = new Person();
 
-        test.setId(2);
+        test.setId(6);
 
         test = (Person) oBuild.buildObject(Person.class, qBuild.selectByPrimaryKey(test));
+
+        System.out.println(test.toString());
+        System.out.println();
+
+        test = new Person();
+
+        test.setEmail("test.person@test.org");
+        test.setPassword("password");
+
+        test = (Person) oBuild.buildObject(Person.class, qBuild.loginByEmail(test));
+
+        System.out.println(test.toString());
+        System.out.println();
+
+        test = new Person();
+
+        test.setUsername("test_person");
+        test.setPassword("password");
+
+        test = (Person) oBuild.buildObject(Person.class, qBuild.loginByUsername(test));
 
         System.out.println(test.toString());
 
