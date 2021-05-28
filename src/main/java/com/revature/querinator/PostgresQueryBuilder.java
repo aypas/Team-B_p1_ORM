@@ -62,6 +62,14 @@ public class PostgresQueryBuilder<T> {
         return buildQuery(obj, "login_email");
     }
 
+    public ResultSet getEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "select_email");
+    }
+
+    public ResultSet getUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return buildQuery(obj, "select_username");
+    }
+
     public ResultSet loginByEmailPgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "pgCrypt_login_email");
     }
@@ -192,6 +200,26 @@ public class PostgresQueryBuilder<T> {
         ResultSet rs = null;
 
         switch (queryType) {
+
+            case "select_email":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                loginInfo = annoGetter.getLoginInfoByEmail(obj);
+
+                rs = readGenerator.buildSelectUsernameOrEmail(tableName, loginInfo);
+
+                break;
+
+            case "select_username":
+
+                readGenerator = new ReadBasedQueries(conn);
+
+                loginInfo = annoGetter.getLoginInfoByUsername(obj);
+
+                rs = readGenerator.buildSelectUsernameOrEmail(tableName, loginInfo);
+
+                break;
 
             case "select_by_pk":
 

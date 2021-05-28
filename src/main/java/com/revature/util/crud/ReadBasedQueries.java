@@ -52,6 +52,21 @@ public class ReadBasedQueries {
 
     }*/
 
+    public ResultSet buildSelectUsernameOrEmail(String tableName, Object[][] loginInfo) throws SQLException {
+
+        String query = "select " + loginInfo[0][0] + " from " + tableName + " where " + loginInfo[0][0] + " = ?;";
+
+        PreparedStatement pstmt = conn.prepareStatement(query);
+
+        pstmt.setObject(1, loginInfo[1][1]);
+
+        System.out.println(pstmt);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        return rs;
+
+    }
 
     public ResultSet buildSelectAllByPK(String tableName, Object[] pkInfo) throws SQLException {
 
