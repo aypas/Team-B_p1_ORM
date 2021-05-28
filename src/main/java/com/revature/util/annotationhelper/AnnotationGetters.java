@@ -1,4 +1,4 @@
-package com.revature.util.querinator.annotationhelper;
+package com.revature.util.annotationhelper;
 
 import com.revature.exceptions.InvalidInput;
 import com.revature.util.annotation.*;
