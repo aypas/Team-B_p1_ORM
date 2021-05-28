@@ -62,12 +62,22 @@ public class PostgresQueryBuilder<T> {
         return buildQuery(obj, "login_email");
     }
 
-    public ResultSet getEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "select_email");
+    public String getEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        ResultSet rs = buildQuery(obj, "select_email");
+        if (!rs.next()) {
+            throw new SQLException();
+        } else {
+            return rs.getString("email");
+        }
     }
 
-    public ResultSet getUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        return buildQuery(obj, "select_username");
+    public String getUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        ResultSet rs = buildQuery(obj, "select_username");
+        if (!rs.next()) {
+            throw new SQLException();
+        } else {
+            return rs.getString("username");
+        }
     }
 
     public ResultSet loginByEmailPgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {

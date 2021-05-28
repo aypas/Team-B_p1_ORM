@@ -5,6 +5,7 @@ import com.revature.util.annotation.Primary;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,9 +15,9 @@ public class GenericObjectMaker {
 
     }
 
-    public Object buildObject(Class clazz, ResultSet rs) throws InstantiationException, IllegalAccessException, SQLException {
+    public Object buildObject(Class clazz, ResultSet rs) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
 
-        Object newObj = clazz.newInstance();
+        Object newObj = clazz.getDeclaredConstructor().newInstance();
 
         // POJO Class's fields
         Field[] classFields = clazz.getDeclaredFields();
