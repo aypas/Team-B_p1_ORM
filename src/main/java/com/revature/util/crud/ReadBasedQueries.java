@@ -139,4 +139,17 @@ public class ReadBasedQueries {
 
     }
 
+    public ResultSet selectAll(String tableName) throws SQLException {
+
+        String query = "select * from tableName;";
+
+        PreparedStatement pstmt = conn.prepareStatement(query);
+
+        System.out.println(pstmt);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        return rs;
+    }
+
 }
