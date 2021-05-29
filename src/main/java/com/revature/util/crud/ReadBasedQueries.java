@@ -39,7 +39,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return returnVal;
 
@@ -78,7 +78,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return returnVal;
 
@@ -100,7 +100,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return returnVal;
 
@@ -122,7 +122,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return returnVal;
 
@@ -146,7 +146,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return returnVal;
 
@@ -171,7 +171,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return encryptedPass;
 
@@ -191,7 +191,7 @@ public class ReadBasedQueries {
 
         if (rs != null) rs.close();
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return returnVal;
     }

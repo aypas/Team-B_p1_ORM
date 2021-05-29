@@ -82,7 +82,7 @@ public class CreateBasedQueries {
         }
 
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return false;
 
@@ -152,7 +152,7 @@ public class CreateBasedQueries {
         }
 
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return newId;
 

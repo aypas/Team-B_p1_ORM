@@ -34,7 +34,7 @@ public class DeleteBasedQueries {
         }
 
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return false;
 

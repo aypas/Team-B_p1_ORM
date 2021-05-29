@@ -65,7 +65,7 @@ public class UpdateBasedQueries {
         }
 
         if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
+        //if (conn != null) conn.close();
 
         return false;
 
