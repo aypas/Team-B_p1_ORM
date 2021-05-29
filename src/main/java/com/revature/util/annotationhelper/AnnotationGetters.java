@@ -209,7 +209,7 @@ public class AnnotationGetters {
 
     public Object[][] getLoginInfoByUsername(Object obj) throws IllegalAccessException {
 
-        Object[][] returnArray = new String[3][2];
+        Object[][] returnArray = new String[2][2];
 
         // Get the objects class
         Class clazz = obj.getClass();
@@ -269,7 +269,7 @@ public class AnnotationGetters {
 
     public Object[][] getLoginInfoByEmail(Object obj) throws IllegalAccessException {
 
-        Object[][] returnArray = new String[3][2];
+        Object[][] returnArray = new String[2][2];
 
         // Get the objects class
         Class clazz = obj.getClass();

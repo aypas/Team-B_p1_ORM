@@ -81,6 +81,9 @@ public class CreateBasedQueries {
             return true;
         }
 
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
         return false;
 
     }
@@ -145,7 +148,11 @@ public class CreateBasedQueries {
             while (rs.next()) {
                 newId = rs.getInt(pKey);
             }
+            rs.close();
         }
+
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
 
         return newId;
 
