@@ -85,7 +85,7 @@ public class CreateBasedQueries {
 
     }
 
-    public Integer buildInsertQueryString(String tableName, ArrayDeque<String> queryColumns, ArrayDeque<Object> queryValues, Object[] pkInfo) throws SQLException {
+    public int buildInsertQueryString(String tableName, ArrayDeque<String> queryColumns, ArrayDeque<Object> queryValues, Object[] pkInfo) throws SQLException {
 
         String preparedParams = "";
         int paramCounter = 1;
