@@ -42,6 +42,40 @@ public class PostgresQueryBuilder<T> {
         return sendQuery(obj, "insert");
     }
 
+    public int insertAndGetId (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+
+        if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        // Holds the table name related to our POJO
+        String tableName = annoGetter.getTableName(obj);
+
+        // Get the queries column names
+        ArrayDeque<String> queryColumns = annoGetter.getColumnNames(obj);
+
+        // Get the queries values
+        ArrayDeque<Object> queryValues = annoGetter.getValues(obj);
+
+        // Primary key info [0] will be the pk column name [1] will be the key itself
+        Object[] pkInfo = annoGetter.getPrimaryKey(obj);
+
+        // Query Builders
+        CreateBasedQueries createGenerator;
+
+        // The return value
+        int val = -1;
+
+
+        createGenerator = new CreateBasedQueries(conn);
+
+        val = createGenerator.buildInsertQueryString(tableName, queryColumns, queryValues, pkInfo);
+
+
+        return val;
+
+    }
+
     public boolean update (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return sendQuery(obj, "update");
     }
@@ -283,6 +317,17 @@ public class PostgresQueryBuilder<T> {
 
         return rs;
 
+    }
+
+    public ResultSet selectAllFromTable (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        ReadBasedQueries queryMaker = new ReadBasedQueries(conn);
+
+        String tableName = annoGetter.getTableName(obj);
+
+        return queryMaker.selectAll(tableName);
     }
 
 }
