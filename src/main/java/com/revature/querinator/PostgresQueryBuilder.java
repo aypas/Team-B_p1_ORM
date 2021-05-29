@@ -42,6 +42,10 @@ public class PostgresQueryBuilder<T> {
         return sendQuery(obj, "insert");
     }
 
+    public Integer insertAndGetId (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return (Integer) sendAndGetQuery(obj, "insert_return");
+    }
+
     public boolean update (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return sendQuery(obj, "update");
     }
@@ -172,6 +176,57 @@ public class PostgresQueryBuilder<T> {
         }
 
         return query;
+
+    }
+
+    public Object sendAndGetQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
+
+        // TODO: Maybe turn this into an ENUM?
+        // Set of valid queryType entries
+        //Set<String> validQueryTypes = Stream.of("insert", "update", "delete")
+        //                                    .collect(Collectors.toCollection(HashSet::new));
+
+        // Ensures a good entry for query type
+        //if (!validQueryTypes.contains(queryType)) { throw new InvalidInput("Bad query type value!"); }
+
+        // Ensures the pojo is supposed to be persisted to a table
+        if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        // Holds the table name related to our POJO
+        String tableName = annoGetter.getTableName(obj);
+
+        // Get the queries column names
+        ArrayDeque<String> queryColumns = annoGetter.getColumnNames(obj);
+
+        // Get the queries values
+        ArrayDeque<Object> queryValues = annoGetter.getValues(obj);
+
+        // Primary key info [0] will be the pk column name [1] will be the key itself
+        Object[] pkInfo = annoGetter.getPrimaryKey(obj);
+
+        // Query Builders
+        CreateBasedQueries createGenerator;
+        UpdateBasedQueries updateGenerator;
+        DeleteBasedQueries deleteGenerator;
+
+        // The return value
+        Object val = null;
+
+        switch (queryType) {
+
+            case "insert_return":
+
+               createGenerator = new CreateBasedQueries(conn);
+
+               val = createGenerator.buildInsertQueryString(tableName, queryColumns, queryValues, pkInfo);
+               break;
+
+
+        }
+
+        return val;
 
     }
 
