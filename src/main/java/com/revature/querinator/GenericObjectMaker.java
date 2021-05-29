@@ -95,9 +95,9 @@ public class GenericObjectMaker {
      * @throws IllegalAccessException
      * @throws SQLException
      */
-    public Deque<Object> buildObjects(Class clazz, List<Map<String, Object>> objInfo) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
+    public List<Object> buildObjects(Class clazz, List<Map<String, Object>> objInfo) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
 
-        Deque<Object> returnVal = new ArrayDeque<>();
+        List<Object> returnVal = new ArrayList<>();
 
         Object newObj = clazz.getDeclaredConstructor().newInstance();
 
