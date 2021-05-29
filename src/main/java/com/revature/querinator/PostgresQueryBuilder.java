@@ -319,4 +319,15 @@ public class PostgresQueryBuilder<T> {
 
     }
 
+    public ResultSet selectAllFromTable (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        ReadBasedQueries queryMaker = new ReadBasedQueries(conn);
+
+        String tableName = annoGetter.getTableName(obj);
+
+        return queryMaker.selectAll(tableName);
+    }
+
 }
