@@ -84,41 +84,51 @@ public class PostgresQueryBuilder<T> {
         return sendQuery(obj, "delete");
     }
 
-    public ResultSet selectByPrimaryKey (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> selectByPrimaryKey (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "select_by_pk");
     }
 
-    public ResultSet loginByUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> loginByUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "login_username");
     }
 
-    public ResultSet loginByEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> loginByEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "login_email");
     }
 
     public String getEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        ResultSet rs = buildQuery(obj, "select_email");
-        if (!rs.next()) {
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        List<Map<String, Object>> mapList = buildQuery(obj, "select_email");
+
+        if (mapList.isEmpty()) {
             return null;
         } else {
-            return rs.getString("email");
+            Map<String, Object> userInfo = mapList.get(0);
+            return (String) userInfo.get(annoGetter.getLoginInfoByEmail(obj)[0][1]);
         }
     }
 
     public String getUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
-        ResultSet rs = buildQuery(obj, "select_username");
-        if (!rs.next()) {
+
+        AnnotationGetters annoGetter = new AnnotationGetters();
+
+        List<Map<String, Object>> mapList = buildQuery(obj, "select_email");
+
+        if (mapList.isEmpty()) {
             return null;
         } else {
-            return rs.getString("username");
+            Map<String, Object> userInfo = mapList.get(0);
+            return (String) userInfo.get(annoGetter.getLoginInfoByUsername(obj)[0][1]);
         }
     }
 
-    public ResultSet loginByEmailPgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> loginByEmailPgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "pgCrypt_login_email");
     }
 
-    public ResultSet loginByUsernamePgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> loginByUsernamePgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "pgCrypt_login_username");
     }
 
@@ -131,7 +141,7 @@ public class PostgresQueryBuilder<T> {
      * @throws AnnotationNotFound
      * @throws SQLException
      */
-    public ResultSet getObjectByForeignKey (T obj, Object[] fkInfo) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> getObjectByForeignKey (T obj, Object[] fkInfo) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         ReadBasedQueries selectMaker = new ReadBasedQueries(conn);
 
@@ -209,7 +219,7 @@ public class PostgresQueryBuilder<T> {
 
     }
 
-    public ResultSet buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
 
         // TODO: Maybe turn this into an ENUM?
         // Set of valid queryType entries
@@ -241,7 +251,7 @@ public class PostgresQueryBuilder<T> {
         ReadBasedQueries readGenerator;
 
         // The return value
-        ResultSet rs = null;
+        List<Map<String, Object>> returnVal = null;
 
         switch (queryType) {
 
@@ -251,7 +261,7 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByEmail(obj);
 
-                rs = readGenerator.buildSelectUsernameOrEmail(tableName, loginInfo);
+                returnVal = readGenerator.buildSelectUsernameOrEmail(tableName, loginInfo);
 
                 break;
 
@@ -261,7 +271,7 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByUsername(obj);
 
-                rs = readGenerator.buildSelectUsernameOrEmail(tableName, loginInfo);
+                returnVal = readGenerator.buildSelectUsernameOrEmail(tableName, loginInfo);
 
                 break;
 
@@ -269,7 +279,7 @@ public class PostgresQueryBuilder<T> {
 
                 readGenerator = new ReadBasedQueries(conn);
 
-                rs = readGenerator.buildSelectAllByPK(tableName, pkInfo);
+                returnVal = readGenerator.buildSelectAllByPK(tableName, pkInfo);
 
                 break;
 
@@ -280,7 +290,7 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByUsername(obj);
 
-                rs = readGenerator.buildLogin(tableName, loginInfo);
+                returnVal = readGenerator.buildLogin(tableName, loginInfo);
 
                 break;
 
@@ -290,7 +300,7 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByEmail(obj);
 
-                rs = readGenerator.buildLogin(tableName, loginInfo);
+                returnVal = readGenerator.buildLogin(tableName, loginInfo);
 
                 break;
 
@@ -300,7 +310,7 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByEmail(obj);
 
-                rs = readGenerator.buildGetDecryptedPgEncryptedPass(tableName, loginInfo);
+                returnVal = readGenerator.buildGetDecryptedPgEncryptedPass(tableName, loginInfo);
 
                 break;
 
@@ -310,16 +320,16 @@ public class PostgresQueryBuilder<T> {
 
                 loginInfo = annoGetter.getLoginInfoByUsername(obj);
 
-                rs = readGenerator.buildGetDecryptedPgEncryptedPass(tableName, loginInfo);
+                returnVal = readGenerator.buildGetDecryptedPgEncryptedPass(tableName, loginInfo);
 
                 break;
         }
 
-        return rs;
+        return returnVal;
 
     }
 
-    public ResultSet selectAllFromTable (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+    public List<Map<String, Object>> selectAllFromTable (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         AnnotationGetters annoGetter = new AnnotationGetters();
 

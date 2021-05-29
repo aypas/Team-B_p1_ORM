@@ -33,6 +33,9 @@ public class DeleteBasedQueries {
             return true;
         }
 
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
         return false;
 
     }

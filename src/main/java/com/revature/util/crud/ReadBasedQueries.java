@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,9 +18,11 @@ public class ReadBasedQueries {
 
     Connection conn;
 
+    ResultSetMapper rsMapper = new ResultSetMapper();
+
     public ReadBasedQueries(Connection conn){ this.conn = conn; }
 
-    public ResultSet buildLogin(String tableName, Object[][] loginInfo) throws SQLException {
+    public List<Map<String, Object>> buildLogin(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + loginInfo[0][0] + " = ? and " + loginInfo[1][0] + " = ?;";
 
@@ -31,7 +35,13 @@ public class ReadBasedQueries {
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs;
+        List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
+
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
+        return returnVal;
 
     }
 
@@ -52,7 +62,7 @@ public class ReadBasedQueries {
 
     }*/
 
-    public ResultSet buildSelectUsernameOrEmail(String tableName, Object[][] loginInfo) throws SQLException {
+    public List<Map<String, Object>> buildSelectUsernameOrEmail(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select " + loginInfo[0][0] + " from " + tableName + " where " + loginInfo[0][0] + " = ?;";
 
@@ -64,11 +74,17 @@ public class ReadBasedQueries {
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs;
+        List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
+
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
+        return returnVal;
 
     }
 
-    public ResultSet buildSelectAllByPK(String tableName, Object[] pkInfo) throws SQLException {
+    public List<Map<String, Object>> buildSelectAllByPK(String tableName, Object[] pkInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + pkInfo[0] + " = ?;";
 
@@ -80,11 +96,17 @@ public class ReadBasedQueries {
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs;
+        List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
+
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
+        return returnVal;
 
     }
 
-    public ResultSet buildSelectAllByFK(String tableName, Object[] fkInfo) throws SQLException {
+    public List<Map<String, Object>> buildSelectAllByFK(String tableName, Object[] fkInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + fkInfo[0] + " = ?;";
 
@@ -96,11 +118,17 @@ public class ReadBasedQueries {
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs;
+        List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
+
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
+        return returnVal;
 
     }
 
-    public ResultSet buildGetDecryptedPgEncryptedPass(String tableName, Object[][] loginInfo) throws SQLException {
+    public List<Map<String, Object>> buildGetDecryptedPgEncryptedPass(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + loginInfo[0][0] + " = ? and " + loginInfo[1][0] + " = crypt(?, ?)";
 
@@ -114,7 +142,13 @@ public class ReadBasedQueries {
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs;
+        List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
+
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
+        return returnVal;
 
     }
 
@@ -135,11 +169,15 @@ public class ReadBasedQueries {
             encryptedPass = rs.getString("password");
         }
 
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
         return encryptedPass;
 
     }
 
-    public ResultSet selectAll(String tableName) throws SQLException {
+    public List<Map<String, Object>> selectAll(String tableName) throws SQLException {
 
         String query = "select * from tableName;";
 
@@ -149,7 +187,13 @@ public class ReadBasedQueries {
 
         ResultSet rs = pstmt.executeQuery();
 
-        return rs;
+        List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
+
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+
+        return returnVal;
     }
 
 }

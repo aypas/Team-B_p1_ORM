@@ -8,6 +8,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GenericObjectMaker {
 
@@ -15,7 +18,7 @@ public class GenericObjectMaker {
 
     }
 
-    public Object buildObject(Class clazz, ResultSet rs) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
+    public Object buildObject(Class clazz, List<Map<String, Object>> objInfo) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
 
         Object newObj = clazz.getDeclaredConstructor().newInstance();
 
@@ -25,7 +28,11 @@ public class GenericObjectMaker {
         // Field level annotations
         Annotation[] fieldAnno;
 
-        while (rs.next()) {
+        int indexCount = 0;
+
+        while (indexCount < objInfo.size()) {
+
+            Map currObjInfo = objInfo.get(indexCount);
 
             // Start looping through the class fields
             for (Field field : classFields) {
@@ -39,7 +46,7 @@ public class GenericObjectMaker {
                     if (ano instanceof Primary) {
 
                         field.setAccessible(true);
-                        field.set(newObj, rs.getObject(field.getAnnotation(Primary.class).name()));
+                        field.set(newObj, currObjInfo.get(field.getAnnotation(Primary.class).name()));
                         field.setAccessible(false);
 
                     }
@@ -47,7 +54,7 @@ public class GenericObjectMaker {
                     if (ano instanceof Column) {
 
                         field.setAccessible(true);
-                        field.set(newObj, rs.getObject(field.getAnnotation(Column.class).name()));
+                        field.set(newObj, currObjInfo.get(field.getAnnotation(Column.class).name()));
                         field.setAccessible(false);
 
                     }
@@ -55,6 +62,8 @@ public class GenericObjectMaker {
                 }
 
             }
+
+            indexCount++;
 
         }
 
