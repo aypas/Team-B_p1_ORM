@@ -179,7 +179,7 @@ public class ReadBasedQueries {
 
     public List<Map<String, Object>> selectAll(String tableName) throws SQLException {
 
-        String query = "select * from tableName;";
+        String query = "select * from " + tableName + ";";
 
         PreparedStatement pstmt = conn.prepareStatement(query);
 
