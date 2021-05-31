@@ -13,7 +13,10 @@ import java.util.Map;
  * User: Jbialon
  * Date: 5/29/2021
  * Time: 12:27 PM
- * Description: {Insert Description}
+ *
+ * Description: Takes a ResultSet object and transfers it to a list of maps used heavily in the object creation
+ *              process.
+ *
  */
 public class ResultSetMapper {
 

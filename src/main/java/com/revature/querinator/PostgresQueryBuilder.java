@@ -29,23 +29,43 @@ public class PostgresQueryBuilder<T> {
 
     /**
      *
-     * Description: Wraps everything nicely into a switch for multiple query types.
+     * Description: Used to insert objects into a database assuming the primary key increments is handled by the database.
      *
      * @param obj
-     * @return query
+     * @return boolean
      * @throws IllegalAccessException
-     * @throws InvalidInput
      * @throws AnnotationNotFound
+     * @throws SQLException
      */
-
     public boolean insert (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return sendQuery(obj, "insert");
     }
 
+    /**
+     *
+     * Description: Used to insert objects into the database using a predefined primary key
+     *
+     * @param obj
+     * @return boolean
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public boolean insertWithPK (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return sendQuery(obj, "insertWithPK");
     }
 
+    /**
+     *
+     * Description: Used to insert objects into the database assuming the database will auto generate the primary key
+     *              and then returns the generated key back to the program.
+     *
+     * @param obj
+     * @return int (Database generated primary key)
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public int insertAndGetId (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
@@ -80,26 +100,87 @@ public class PostgresQueryBuilder<T> {
 
     }
 
+    /**
+     *
+     * Description: Used to update existing data in a database
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public boolean update (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return sendQuery(obj, "update");
     }
 
+
+    /**
+     *
+     * Description: Used to delete data from a database
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public boolean delete (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return sendQuery(obj, "delete");
     }
 
+    /**
+     *
+     * Description: Used to select a record by primary key from a database
+     *
+     * @param obj
+     * @return List<Map<String, Object>> containing info about desired record
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public List<Map<String, Object>> selectByPrimaryKey (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "select_by_pk");
     }
 
+    /**
+     *
+     * Description: Can be used to authenticate users by username in applications requiring login
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public List<Map<String, Object>> loginByUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "login_username");
     }
 
+    /**
+     *
+     * Description: Can be used to authenticate users by email in applications requiring login
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public List<Map<String, Object>> loginByEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "login_email");
     }
 
+    /**
+     *
+     * Description: Grabs an email from a database via the Email annotation
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public String getEmail (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         AnnotationGetters annoGetter = new AnnotationGetters();
@@ -114,6 +195,16 @@ public class PostgresQueryBuilder<T> {
         }
     }
 
+    /**
+     *
+     * Description: Grabs an email from a database via the Username annotation
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public String getUsername (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         AnnotationGetters annoGetter = new AnnotationGetters();
@@ -128,15 +219,37 @@ public class PostgresQueryBuilder<T> {
         }
     }
 
+    /**
+     *
+     * Description: Same as loginByEmail except allows the utilization of PgCrypt features
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public List<Map<String, Object>> loginByEmailPgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "pgCrypt_login_email");
     }
 
+    /**
+     *
+     * Description: Same as loginByUsername except allows the utilization of PgCrypt features
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public List<Map<String, Object>> loginByUsernamePgCrypt (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
         return buildQuery(obj, "pgCrypt_login_username");
     }
 
     /**
+     *
+     * Description: Selects a record by a foreign key from a database
      *
      * @param obj
      * @param fkInfo [0] = foreign key column name [1] = value
@@ -157,7 +270,20 @@ public class PostgresQueryBuilder<T> {
         return selectMaker.buildSelectAllByFK(tableName, fkInfo);
     }
 
-    public boolean sendQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
+    /**
+     *
+     * Description: Switch statement which routes the above wrapper functions to the proper util.crud class and function
+     *              along with all of the required information (excludes select statements)
+     *
+     * @param obj
+     * @param queryType
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvalidInput
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
+    private boolean sendQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
 
         // TODO: Maybe turn this into an ENUM?
         // Set of valid queryType entries
@@ -231,7 +357,20 @@ public class PostgresQueryBuilder<T> {
 
     }
 
-    public List<Map<String, Object>> buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
+    /**
+     *
+     * Description: Switch statement which routes the above select wrapper functions to the proper util.crud class and function
+     *              along with all of the required information
+     *
+     * @param obj
+     * @param queryType
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvalidInput
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
+    private List<Map<String, Object>> buildQuery(T obj, String queryType) throws IllegalAccessException, InvalidInput, AnnotationNotFound, SQLException {
 
         // TODO: Maybe turn this into an ENUM?
         // Set of valid queryType entries
@@ -341,6 +480,16 @@ public class PostgresQueryBuilder<T> {
 
     }
 
+    /**
+     *
+     * Description: Builds a select all from table statement and fires it to a database
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     * @throws AnnotationNotFound
+     * @throws SQLException
+     */
     public List<Map<String, Object>> selectAllFromTable (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         AnnotationGetters annoGetter = new AnnotationGetters();
