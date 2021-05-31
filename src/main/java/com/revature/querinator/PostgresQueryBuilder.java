@@ -42,6 +42,10 @@ public class PostgresQueryBuilder<T> {
         return sendQuery(obj, "insert");
     }
 
+    public boolean insertWithPK (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
+        return sendQuery(obj, "insertWithPK");
+    }
+
     public int insertAndGetId (T obj) throws IllegalAccessException, AnnotationNotFound, SQLException {
 
         if (!obj.getClass().isAnnotationPresent(Entity.class)) { throw new AnnotationNotFound("Entity annotation not found!!"); }
@@ -196,6 +200,14 @@ public class PostgresQueryBuilder<T> {
 
                 // We have our dynamic/generic query :)
                 query = createGenerator.buildInsertQueryString(tableName, queryColumns, queryValues);
+                break;
+
+            case "insertWithPK":
+
+                createGenerator = new CreateBasedQueries(conn);
+
+                // We have our dynamic/generic query :)
+                query = createGenerator.buildInsertQueryStringWithPK(tableName, queryColumns, queryValues, pkInfo);
                 break;
 
             case "update":

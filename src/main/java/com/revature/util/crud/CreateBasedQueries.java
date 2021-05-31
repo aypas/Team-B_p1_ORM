@@ -158,6 +158,73 @@ public class CreateBasedQueries {
 
     }
 
+    public boolean buildInsertQueryStringWithPK(String tableName, ArrayDeque<String> queryColumns, ArrayDeque<Object> queryValues, Object[] pkInfo) throws SQLException {
+
+        String preparedParams = "";
+        int paramCounter = 0;
+        String lastQueryColumn = queryColumns.peekLast();
+
+        // Return value
+        String query = "insert into " + tableName + "(";
+
+        query = query + pkInfo[0] + ", ";
+
+        // While we still have column data in our deque...
+        while (!queryColumns.isEmpty()) {
+
+            // If it's not the last item in the deque
+            if (!queryColumns.peek().equals(lastQueryColumn)) {
+
+                // Add it to our query followed by a comma
+                query = query + queryColumns.poll() + ", ";
+
+            } else {
+
+                // If it is the last item add it to the query but close it off and start the values portion of our query
+                query = query + queryColumns.poll() + ") values(";
+            }
+
+        }
+
+        query = query + pkInfo[1] + ", ";
+
+        for (Object value : queryValues) {
+            preparedParams = preparedParams + "?, ";
+        }
+
+        preparedParams = preparedParams.substring(0, preparedParams.length() - 2);
+
+
+        // insert into users(firstname, lastname) values(?, ?);
+        query = query + preparedParams + ");";
+
+        PreparedStatement pstmt = conn.prepareStatement(query);
+
+        // While our arrayDeque of values is not empty...
+        while (!queryValues.isEmpty()) {
+
+            pstmt.setObject(paramCounter, queryValues.poll());
+
+            paramCounter++;
+
+        }
+
+        System.out.println(pstmt);
+
+        int insertedRows = pstmt.executeUpdate();
+
+
+        if (insertedRows != 0) {
+            return true;
+        }
+
+        if (pstmt != null) pstmt.close();
+        //if (conn != null) conn.close();
+
+        return false;
+
+    }
+
 
 
 
