@@ -84,11 +84,11 @@ public class GenericObjectMaker {
 
     /**
      *
-     * Description: Builds and returns multiple objects in a Deque.
+     * Description: Builds and returns multiple objects in an ArrayList.
      *
      * @param clazz
      * @param objInfo
-     * @return
+     * @return ArrayList of Objects
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
      * @throws InstantiationException

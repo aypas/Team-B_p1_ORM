@@ -12,7 +12,7 @@ import java.util.Map;
  * User: Jbialon
  * Date: 5/15/2021
  * Time: 5:00 PM
- * Description: {Insert Description}
+ * Description: Builds and sends of select based queries to a database
  */
 public class ReadBasedQueries {
 
@@ -22,6 +22,16 @@ public class ReadBasedQueries {
 
     public ReadBasedQueries(Connection conn){ this.conn = conn; }
 
+    /**
+     *
+     * Description: Builds and sends a query that will send back a users info to be used after a successful login
+     *              authentication attempt
+     *
+     * @param tableName
+     * @param loginInfo
+     * @return
+     * @throws SQLException
+     */
     public List<Map<String, Object>> buildLogin(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + loginInfo[0][0] + " = ? and " + loginInfo[1][0] + " = ?;";
@@ -62,6 +72,15 @@ public class ReadBasedQueries {
 
     }*/
 
+    /**
+     *
+     * Description: Grabs a users information used for authentication purposes
+     *
+     * @param tableName
+     * @param loginInfo
+     * @return
+     * @throws SQLException
+     */
     public List<Map<String, Object>> buildSelectUsernameOrEmail(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select " + loginInfo[0][0] + " from " + tableName + " where " + loginInfo[0][0] + " = ?;";
@@ -84,6 +103,15 @@ public class ReadBasedQueries {
 
     }
 
+    /**
+     *
+     * Description: Selects a records information by primary key
+     *
+     * @param tableName
+     * @param pkInfo
+     * @return
+     * @throws SQLException
+     */
     public List<Map<String, Object>> buildSelectAllByPK(String tableName, Object[] pkInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + pkInfo[0] + " = ?;";
@@ -106,6 +134,15 @@ public class ReadBasedQueries {
 
     }
 
+    /**
+     *
+     * Description: Selects a records information by foreign key
+     *
+     * @param tableName
+     * @param fkInfo
+     * @return
+     * @throws SQLException
+     */
     public List<Map<String, Object>> buildSelectAllByFK(String tableName, Object[] fkInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + fkInfo[0] + " = ?;";
@@ -128,6 +165,15 @@ public class ReadBasedQueries {
 
     }
 
+    /**
+     *
+     * Description: Decrypts a password encrypted by PgCrypt
+     *
+     * @param tableName
+     * @param loginInfo
+     * @return
+     * @throws SQLException
+     */
     public List<Map<String, Object>> buildGetDecryptedPgEncryptedPass(String tableName, Object[][] loginInfo) throws SQLException {
 
         String query = "select * from " + tableName + " where " + loginInfo[0][0] + " = ? and " + loginInfo[1][0] + " = crypt(?, ?)";
@@ -152,6 +198,15 @@ public class ReadBasedQueries {
 
     }
 
+    /**
+     *
+     * Description: Gets an encrypted password for authentication purposes
+     *
+     * @param tableName
+     * @param loginInfo
+     * @return
+     * @throws SQLException
+     */
     private String buildGetPgEncryptedPass(String tableName, Object[][] loginInfo) throws SQLException {
 
         String encryptedPass = null;
@@ -177,6 +232,14 @@ public class ReadBasedQueries {
 
     }
 
+    /**
+     *
+     * Description: Gets all records from a desired table
+     *
+     * @param tableName
+     * @return
+     * @throws SQLException
+     */
     public List<Map<String, Object>> selectAll(String tableName) throws SQLException {
 
         String query = "select * from " + tableName + ";";

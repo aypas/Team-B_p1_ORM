@@ -7,6 +7,7 @@ package com.revature.exceptions;
  * Time: 11:04 AM
  * Description: Throws an exception if bad input is given
  */
+
 public class InvalidInput extends RuntimeException {
 
     public InvalidInput(String message) {

@@ -7,15 +7,14 @@ import java.lang.annotation.*;
  * User: Jbialon
  * Date: 5/15/2021
  * Time: 2:06 PM
- * Description: {Insert Description}
+ * Description: Specifies this column is associated with a password, to be used in tandem with Column or other related
+ *              annotations
+ *
  */
 
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Password {
-
-    // Set this to true if using pgcrypt library.
-    boolean encrypt() default false;
     
 }

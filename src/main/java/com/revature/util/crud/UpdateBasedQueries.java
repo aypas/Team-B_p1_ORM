@@ -18,6 +18,17 @@ public class UpdateBasedQueries {
 
     public UpdateBasedQueries(Connection conn){ this.conn = conn; }
 
+    /**
+     *
+     * Description: Updates a record by primary key
+     *
+     * @param tableName
+     * @param pkInfo
+     * @param queryColumns
+     * @param queryValues
+     * @return
+     * @throws SQLException
+     */
     public boolean buildUpdateQueryString(String tableName, Object[] pkInfo, ArrayDeque<String> queryColumns, ArrayDeque<Object> queryValues) throws SQLException {
 
         int paramCounter = 1;
