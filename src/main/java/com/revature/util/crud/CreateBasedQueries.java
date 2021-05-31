@@ -161,7 +161,7 @@ public class CreateBasedQueries {
     public boolean buildInsertQueryStringWithPK(String tableName, ArrayDeque<String> queryColumns, ArrayDeque<Object> queryValues, Object[] pkInfo) throws SQLException {
 
         String preparedParams = "";
-        int paramCounter = 0;
+        int paramCounter = 1;
         String lastQueryColumn = queryColumns.peekLast();
 
         // Return value
