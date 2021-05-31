@@ -7,7 +7,9 @@ import java.lang.annotation.*;
  * User: Jbialon
  * Date: 5/15/2021
  * Time: 2:07 PM
- * Description: {Insert Description}
+ * Description: Specifies this column is associated with an email, to be used in tandem with Column or other related
+ *              annotations
+ *
  */
 
 @Documented

@@ -12,13 +12,15 @@ import java.util.ArrayDeque;
  * User: Jbialon
  * Date: 5/21/2021
  * Time: 8:02 PM
- * Description: {Insert Description}
+ * Description: Reflection based methods used to get information via annotations
  */
 public class AnnotationGetters {
 
     public AnnotationGetters() {};
 
     /**
+     *
+     * Description: Gets the table name from the Table annotation
      *
      * @param obj
      * @return tableName
@@ -53,6 +55,8 @@ public class AnnotationGetters {
     }
 
     /**
+     *
+     * Description: Gets column names from fields via the Column annotation
      *
      * @param obj
      * @return ArrayDeque of column names
@@ -97,6 +101,8 @@ public class AnnotationGetters {
     }
 
     /**
+     *
+     * Description: Gets the values to be inserted into a column via the Column annotation
      *
      * @param obj
      * @return ArrayDeque of mixed type values
@@ -145,6 +151,8 @@ public class AnnotationGetters {
     }
 
     /**
+     *
+     * Description: Gets the primary key column name and value
      *
      * @param obj
      * @return int (primary key)
@@ -207,9 +215,21 @@ public class AnnotationGetters {
 
     }
 
+    /**
+     *
+     * Description: Gets a users login information via username and returns it in a nested array
+     *              [0][0] = Username column name
+     *              [0][1] = Username value
+     *              [1][0] = Password column name
+     *              [1][1] = Password value
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     */
     public Object[][] getLoginInfoByUsername(Object obj) throws IllegalAccessException {
 
-        Object[][] returnArray = new String[3][2];
+        Object[][] returnArray = new String[2][2];
 
         // Get the objects class
         Class clazz = obj.getClass();
@@ -267,9 +287,21 @@ public class AnnotationGetters {
 
     }
 
+    /**
+     *
+     * Description: Gets a users login information via email and returns it in a nested array
+     *              [0][0] = Email column name
+     *              [0][1] = Email value
+     *              [1][0] = Password column name
+     *              [1][1] = Password value
+     *
+     * @param obj
+     * @return
+     * @throws IllegalAccessException
+     */
     public Object[][] getLoginInfoByEmail(Object obj) throws IllegalAccessException {
 
-        Object[][] returnArray = new String[3][2];
+        Object[][] returnArray = new String[2][2];
 
         // Get the objects class
         Class clazz = obj.getClass();

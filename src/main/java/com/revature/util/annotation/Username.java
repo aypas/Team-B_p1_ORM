@@ -7,7 +7,8 @@ import java.lang.annotation.*;
  * User: Jbialon
  * Date: 5/15/2021
  * Time: 2:06 PM
- * Description: {Insert Description}
+ * Description: Specifies this column is associated with a username, to be used in tandem with Column or other related
+ *              annotations
  */
 
 @Documented
