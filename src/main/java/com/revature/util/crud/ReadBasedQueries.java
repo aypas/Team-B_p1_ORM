@@ -47,8 +47,8 @@ public class ReadBasedQueries {
 
         List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return returnVal;
@@ -95,8 +95,8 @@ public class ReadBasedQueries {
 
         List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return returnVal;
@@ -126,8 +126,8 @@ public class ReadBasedQueries {
 
         List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return returnVal;
@@ -157,8 +157,8 @@ public class ReadBasedQueries {
 
         List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return returnVal;
@@ -190,8 +190,8 @@ public class ReadBasedQueries {
 
         List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return returnVal;
@@ -224,8 +224,8 @@ public class ReadBasedQueries {
             encryptedPass = rs.getString("password");
         }
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return encryptedPass;
@@ -252,8 +252,8 @@ public class ReadBasedQueries {
 
         List<Map<String, Object>> returnVal = rsMapper.mapResultSet(rs);
 
-        //if (rs != null) rs.close();
-        //if (pstmt != null) pstmt.close();
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
         //if (conn != null) conn.close();
 
         return returnVal;
