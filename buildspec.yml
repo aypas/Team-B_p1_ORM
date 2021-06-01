@@ -17,9 +17,9 @@ phases:
       - echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       - ls -al
       - echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      - - ls -al target/
+      - ls -al target/
       # - mv target/* ./
 
 artifacts:
   files:
-    - target/ORM-testing.jar
+    - target/ORM-testing-1.0.jar
