@@ -14,6 +14,10 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      - ls -al
+      # - mv target/* ./
+
 artifacts:
   files:
-    - TeamB_ORM.jar
+    - target/ORM-testing.jar
