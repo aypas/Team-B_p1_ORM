@@ -8,13 +8,13 @@
   
   ### JAR Packaging
 
-     Open the directory containing this project and type
-      ```mvn clean package```
+   Open the directory containing this project and type
+   ```mvn clean package```
 
   ### M.2 Installation
   
-    Open the directory containing this project and type
-      ```mvn clean install``
+   Open the directory containing this project and type
+   ```mvn clean install``
   
 
 ## Demonstration Program
