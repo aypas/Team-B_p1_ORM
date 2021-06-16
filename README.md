@@ -1,4 +1,4 @@
-# LetsMakeADynamicQuery
+# Team-B_p1_ORM
 
 ## Demonstration Program
   [Web Application](https://github.com/210426-java-react-enterprise/Team-B_p1_WebApp)
