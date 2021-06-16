@@ -49,9 +49,15 @@
   
   * Entity (Type level annotaion that let's the ORM know this POJO is worth persisting)
   * Table (Type level annotaion that takes an argument of "table_name" which will tell the ORM what table the POJO belongs too)
-  * Primary (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's primary key belongs too)
-  * Foreign (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's foreign key belongs too)
-  * Column (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's annotated field belongs too)
-  * Username (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's username field belongs too)
-  * Email (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's email field belongs too)
-  * Password (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's password field belongs too)
+  * Primary (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's primary 
+             key belongs too)
+  * Foreign (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's foreign 
+             key belongs too)
+  * Column (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's annotated
+            field belongs too)
+  * Username (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's username 
+              field belongs too)
+  * Email (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's email field 
+           belongs too)
+  * Password (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's password
+              field belongs too)
