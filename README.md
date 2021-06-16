@@ -1,5 +1,22 @@
 # Team-B_p1_ORM
 
+## Packaging and Installation
+ 
+  ### Requirements
+ 
+  In order to install you will need maven on your machine
+  
+  ### JAR Packaging
+
+     Open the directory containing this project and type
+      ```mvn clean package```
+
+  ### M.2 Installation
+  
+    Open the directory containing this project and type
+      ```mvn clean install``
+  
+
 ## Demonstration Program
   [Web Application](https://github.com/210426-java-react-enterprise/Team-B_p1_WebApp)
 
