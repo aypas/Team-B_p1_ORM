@@ -4,7 +4,7 @@
  
   ### Requirements
  
-  In order to install you will need maven on your machine and properly added to your system path
+  In order to install you will need maven on your machine and properly added to your system path  
   [Get Maven](https://maven.apache.org/)
   
   ### JAR Packaging
