@@ -40,3 +40,18 @@
 
   * buildObject (Takes in a map and will return the first object contained as a fully completed POJO)
   * buildObjects (Takes in a map and will return a list of all objects contained as fully completed POJOs)
+
+## Annotations
+  
+  As mentioned before this ORM relies on annotations, so here is a list of those included.
+
+### Annotation List
+  
+  * Entity (Type level annotaion that let's the ORM know this POJO is worth persisting)
+  * Table (Type level annotaion that takes an argument of "table_name" which will tell the ORM what table the POJO belongs too)
+  * Primary (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's primary key belongs too)
+  * Foreign (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's foreign key belongs too)
+  * Column (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's annotated field belongs too)
+  * Username (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's username field belongs too)
+  * Email (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's email field belongs too)
+  * Password (Field level annotation takes an argument of "name" which will tell the ORM what the column name the POJO's password field belongs too)
