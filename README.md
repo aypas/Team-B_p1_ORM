@@ -24,7 +24,7 @@
   * update (Will take a POJO with an ID and update the existing persistent entry based on the changes)
   * delete (Will take a POJO with an ID and delete the database entry by ID)
   * selectByPrimaryKey (Will take in an uncomplete POJO only containing and ID and return a Map for use with the GenericObjectMaker)
-  * loginByUsername (For used with authenticatin based systems, will check the databse for a username and password combination and 
+  * loginByUsername (For used with authentication based systems, will check the databse for a username and password combination and 
                      return a map for the GenericObjectMaker to create a user POJO as defined by the parent application)
   * loginByEmail (Same as above but instead of username it will utilize an email address)
   * loginByUsernamePgCrypt (Much like the above but utilizes PostgreSQL's pgCrypt library for more secure authentication using passwords)
