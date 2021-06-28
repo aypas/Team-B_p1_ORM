@@ -1,7 +1,7 @@
 node {
     stage("stage 1") {
         echo "hello world"
-        sh "ls"
+        sh "find"
         withCredentials([string(credentialsId: 'sonar_auth_token', variable: 'sonar_auth_token')]) {
             println "${sonar_auth_token}"
             sh "mvn clean package"
