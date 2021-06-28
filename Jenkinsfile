@@ -1,5 +1,7 @@
 node {
+
     stage("stage 1") {
+        checkout scm
         echo "hello world"
         sh "find"
         withCredentials([string(credentialsId: 'sonar_auth_token', variable: 'sonar_auth_token')]) {
