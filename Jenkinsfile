@@ -1,4 +1,4 @@
-node("any") {
+node("master") {
     stage("stage 1") {
         echo "hello world"
         sh "find"
