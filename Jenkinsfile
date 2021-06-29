@@ -10,6 +10,6 @@ node("master") {
         }
         sh "ls"
         sh "cd target"
-        stash "ORM-testing-1.0.jar"
+        archiveArtifacts artifacts: 'ORM-testing-1.0.jar', followSymlinks: false
     }
 }
