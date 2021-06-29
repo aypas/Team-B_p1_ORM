@@ -9,6 +9,7 @@ node("master") {
             sh "mvn sonar:sonar -Dsonar.login=${sonar_auth_token} -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=2105-may24-devops -Dsonar.projectKey=2105-may24-devops_project1_team1B_ORM"
         }
         sh "ls"
-        archiveArtifacts artifacts: 'target/ORM-testing-1.0.jar'
+        dir "target"
+        archiveArtifacts artifacts: 'ORM-testing-1.0.jar'
     }
 }
