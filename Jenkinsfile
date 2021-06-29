@@ -10,6 +10,8 @@ node("master") {
         }
         sh "ls"
         dir "target"
-        archiveArtifacts artifacts: 'ORM-testing-1.0.jar'
+        dir("target") {
+            archiveArtifacts artifacts: 'ORM-testing-1.0.jar'
+        }
     }
 }
